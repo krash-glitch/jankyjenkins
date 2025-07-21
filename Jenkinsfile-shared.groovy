@@ -13,6 +13,7 @@ def execute() {
         stages {
             stage('Checkov') {
                 steps {
+                    echo '[shared] Inside Checkov stage'
                     withCredentials([
                         string(credentialsId: 'PC_USER', variable: 'pc_user'),
                         string(credentialsId: 'PC_PASSWORD', variable: 'pc_password')
