@@ -1,7 +1,6 @@
-def run() {
+def execute() {
     pipeline {
         agent any
-
         environment {
             PRISMA_API_URL = "https://api2.prismacloud.io"
         }
