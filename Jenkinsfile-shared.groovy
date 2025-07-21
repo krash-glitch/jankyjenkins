@@ -1,4 +1,4 @@
-def run(Map config = [:]) {
+def run() {
     pipeline {
         agent any
 
@@ -6,14 +6,12 @@ def run(Map config = [:]) {
             PRISMA_API_URL = "https://api2.prismacloud.io"
         }
 
-        // stages {
-        //     stage('Checkout') {
-        //         steps {
-        //             git branch: 'master', url: 'https://github.com/krash-glitch/terragoat.git'
-        //             stash includes: '**/*', name: 'source'
-        //         }
-        //     }
+        options {
+            preserveStashes()
+            timestamps()
+        }
 
+        stages {
             stage('Checkov') {
                 steps {
                     withCredentials([
@@ -23,7 +21,7 @@ def run(Map config = [:]) {
                         script {
                             docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
                                 unstash 'source'
-                                sh """
+                                sh '''
                                     checkov -d . \
                                     --use-enforcement-rules \
                                     -o cli -o junitxml \
@@ -31,17 +29,12 @@ def run(Map config = [:]) {
                                     --bc-api-key ${pc_user}::${pc_password} \
                                     --repo-id krash/terragoat \
                                     --branch master
-                                """
+                                '''
                             }
                         }
                     }
                 }
             }
-        }
-
-        options {
-            preserveStashes()
-            timestamps()
         }
     }
 }
