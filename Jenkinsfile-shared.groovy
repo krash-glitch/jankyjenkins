@@ -17,6 +17,7 @@ def execute() {
                     --bc-api-key cc67ac84-1d07-4643-95e6-7b24780fa0c1::WuRn23bdxr8YlICIfk6OQewEE40= \
                     --repo-id krash/terragoat \
                     --branch master
+                    --prisma-api-url https://app2.prismacloud.io 
                 '''
             }
         }
